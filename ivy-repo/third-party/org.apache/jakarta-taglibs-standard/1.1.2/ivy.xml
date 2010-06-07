@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="jakarta-taglibs-standard" revision="1.1.2"/>
+    
+    <configurations>
+        <conf
+            name="compile"
+            description="dependencies needed to compile"/>
+        <conf
+            name="test"
+            extends="compile"
+            description="dependencies needed to test"/>
+    </configurations>
+
+    <publications>
+        <artifact name="jstl" type="jar" ext="jar"/>
+        <artifact name="standard" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

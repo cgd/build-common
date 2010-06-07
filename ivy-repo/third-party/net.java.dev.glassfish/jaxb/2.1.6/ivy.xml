@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="net.java.dev.glassfish" module="jaxb" revision="2.1.6"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <artifact name="jaxb-api" type="jar" ext="jar"/>
+        <artifact name="jaxb-impl" type="jar" ext="jar"/>
+        
+        <!-- TODO this should be in its own ant-tools configuration -->
+        <artifact name="jaxb-xjc" type="jar" ext="jar"/>
+        
+        <!-- TODO these should be in thier own projects -->
+        <artifact name="activation" type="jar" ext="jar"/>
+        <artifact name="jsr173_1.0_api" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

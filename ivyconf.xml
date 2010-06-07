@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivysettings>
+    <settings defaultResolver="resolver-chain"/>
+    <resolvers>
+        <chain name="resolver-chain" returnFirst="false">
+            <!-- First go to our internal repository -->
+            <filesystem name="internal" checkmodified="true" changingPattern=".*">
+                <ivy pattern="${ivy.conf.dir}/ivy-repo/internal/[organisation]/[module]/[revision]/ivy.xml" />
+                <artifact pattern="${ivy.conf.dir}/ivy-repo/internal/[organisation]/[module]/[revision]/[artifact].[ext]" />
+            </filesystem>
+            
+            <!-- try third party filesystem repository third -->
+            <filesystem name="thirdparty" changingPattern=".*">
+                <ivy pattern="${ivy.conf.dir}/ivy-repo/third-party/[organisation]/[module]/[revision]/ivy.xml" />
+                <artifact pattern="${ivy.conf.dir}/ivy-repo/third-party/[organisation]/[module]/[revision]/[artifact].[ext]" />
+            </filesystem>
+        </chain>
+    </resolvers>
+    
+    <caches checkUpToDate="false"/>
+</ivysettings>

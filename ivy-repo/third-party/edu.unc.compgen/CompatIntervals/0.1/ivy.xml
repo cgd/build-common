@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="edu.unc.compgen" module="CompatIntervals" revision="0.1"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <!-- Jython treats this as a "magic jar". the interpreter will look -->
+        <!-- for python files in jython.jar!/Lib if it's on the classpath -->
+        <artifact name="CompatIntervals" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

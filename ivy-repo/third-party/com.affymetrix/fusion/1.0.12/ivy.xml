@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="com.affymetrix" module="fusion" revision="1.0.12"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <artifact name="AffxFusion" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

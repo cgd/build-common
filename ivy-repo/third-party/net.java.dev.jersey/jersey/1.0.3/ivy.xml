@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="net.java.dev.jersey" module="jersey" revision="1.0.3"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <artifact name="jersey-core" type="jar" ext="jar"/>
+        <artifact name="jersey-multipart" type="jar" ext="jar"/>
+        <artifact name="jersey-server" type="jar" ext="jar"/>
+        <artifact name="asm-3.1" type="jar" ext="jar"/>
+        <artifact name="jsr311-api" type="jar" ext="jar"/>
+        <artifact name="mail-1.4" type="jar" ext="jar"/>
+        <artifact name="mimepull-1.3" type="jar" ext="jar"/>
+        <!-- TODO: FIXME activation conflicts w/ jaxb -->
+        <artifact name="activation-1.1" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    <!--
+        <dependency
+            org="net.java.dev.glassfish"
+            name="jaxb"
+            rev="2.0.+"/>
+    -->
+    </dependencies>
+    
+</ivy-module>

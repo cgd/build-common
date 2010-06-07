@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="tomcat" revision="6.0.24"/>
+    
+    <configurations>
+        <conf
+            name="compile"
+            description="dependencies needed to compile"/>
+        <conf
+            name="test"
+            extends="compile"
+            description="dependencies needed to test"/>
+    </configurations>
+
+    <publications>
+        <artifact name="annotations-api" type="jar" ext="jar"/>
+        <artifact name="bootstrap" type="jar" ext="jar"/>
+        <artifact name="commons-daemon" type="jar" ext="jar"/>
+        <artifact name="catalina-ant" type="jar" ext="jar"/>
+        <artifact name="catalina-ha" type="jar" ext="jar"/>
+        <artifact name="catalina-tribes" type="jar" ext="jar"/>
+        <artifact name="catalina" type="jar" ext="jar"/>
+        <artifact name="el-api" type="jar" ext="jar"/>
+        <artifact name="jasper-el" type="jar" ext="jar"/>
+        <artifact name="jasper-jdt" type="jar" ext="jar"/>
+        <artifact name="jasper" type="jar" ext="jar"/>
+        <artifact name="jsp-api" type="jar" ext="jar"/>
+        <artifact name="servlet-api" type="jar" ext="jar"/>
+        <artifact name="tomcat-coyote" type="jar" ext="jar"/>
+        <artifact name="tomcat-dbcp" type="jar" ext="jar"/>
+        <artifact name="tomcat-i18n-es" type="jar" ext="jar"/>
+        <artifact name="tomcat-i18n-fr" type="jar" ext="jar"/>
+        <artifact name="tomcat-i18n-ja" type="jar" ext="jar"/>
+        <artifact name="tomcat-juli" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="common">
+    
+    <description>
+        Common build file.
+    </description>
+    
+    <import file="build-common-properties.xml"/>
+    
+    <path id="ivy.lib.path">
+        <fileset dir="${common.build.dir}/apache-ivy-${ivy.version}" includes="**/*.jar"/>
+    </path>
+    
+    <taskdef
+        resource="org/apache/ivy/ant/antlib.xml"
+        uri="antlib:org.apache.ivy.ant"
+        classpathref="ivy.lib.path"/>
+    
+    <!-- Ivy Targets -->
+    <target name="ivy-configure">
+        <ivy:configure file="${common.build.dir}/ivyconf.xml" override="true"/>
+    </target>
+    <target name="ivy-resolve" depends="ivy-configure">
+        <ivy:resolve file="ivy.xml"/>
+    </target>
+    <target name="ivy-retrieve" depends="ivy-resolve">
+        <mkdir dir="${lib}"/>
+        <ivy:retrieve pattern="${lib}/[artifact]-[revision].[ext]"/>
+    </target>
+    <target name="ivy-resolve-test" depends="ivy-configure">
+        <ivy:resolve file="ivy.xml" conf="test"/>
+    </target>
+    <target name="ivy-retrieve-test" depends="ivy-resolve-test">
+        <mkdir dir="${test.lib}"/>
+        <ivy:retrieve pattern="${test.lib}/[artifact]-[revision].[ext]"/>
+    </target>
+    <target name="ivy-deliver" depends="dist">
+        <ivy:deliver deliverpattern="${dist}/[artifact]-[revision].[ext]"/>
+    </target>
+    <target name="ivy-publish" depends="ivy-deliver">
+        <ivy:publish resolver="internal" artifactspattern="${dist}/[artifact]-[revision].[ext]" overwrite="true" forcedeliver="true"/>
+    </target>
+    <target name="ivy-deliver-nodeps" depends="dist-nodeps">
+        <ivy:deliver deliverpattern="${dist}/[artifact]-[revision].[ext]"/>
+    </target>
+    <target name="ivy-publish-nodeps" depends="ivy-deliver-nodeps">
+        <ivy:publish resolver="internal" artifactspattern="${dist}/[artifact]-[revision].[ext]"/>
+    </target>
+    
+    <!-- recursive build targets -->
+    <target name="build-deps" depends="ivy-configure">
+        <!-- grab ivy.module using info task, then build list of dependencies -->
+        <ivy:info file="ivy.xml"/>
+        <ivy:buildlist reference="build-path" ivyfilepath="ivy.xml" root="${ivy.module}" excluderoot="true" onMissingDescriptor="skip">
+            <fileset dir="${common.build.dir}/.." includes="**/build.xml"/>
+        </ivy:buildlist>
+        
+        <!-- invoke build on dependencies -->
+        <subant
+            target="ivy-publish-nodeps"
+            buildpathref="build-path"
+            inheritall="false"
+            inheritrefs="false"/>
+    </target>
+    <target name="clean-deps" depends="ivy-configure">
+        <!-- grab ivy.module using info task, then build list of dependencies -->
+        <ivy:info file="ivy.xml"/>
+        <ivy:buildlist reference="build-path" ivyfilepath="ivy.xml" root="${ivy.module}" excluderoot="true" onMissingDescriptor="skip">
+            <fileset dir="${common.build.dir}/.." includes="**/build.xml"/>
+        </ivy:buildlist>
+        
+        <!-- invoke clean on dependencies -->
+        <subant
+            target="clean-nodeps"
+            buildpathref="build-path"
+            inheritall="false"
+            inheritrefs="false"/>
+        
+        <!-- clean the ivy cache -->
+        <ivy:cleancache/>
+    </target>
+    
+    <path id="proj.classpath">
+        <pathelement path="${java.class.path}"/>
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="doc" description="create the javadoc">
+        <!-- Build the javadoc -->
+        <javadoc destdir="${doc}">
+            <packageset dir="${src}/java" defaultexcludes="no"/>
+        </javadoc>
+    </target>
+    
+    <target name="compile-nodeps" depends="ivy-retrieve" description="compile the source">
+        <!-- Compile the java code from ${src} into ${build}/classes -->
+        <mkdir dir="${build}/classes"/>
+        <javac srcdir="${src}/java" destdir="${build}/classes" target="1.5" source="1.5" deprecation="true" classpathref="proj.classpath" debug="true">
+            <!--
+            <compilerarg value="-Xlint"/>
+            <compilerarg value="-Xlint:-serial"/>
+            -->
+        </javac>
+    </target>
+    
+    <target name="dist-nodeps" depends="compile-and-maybe-test,jar" description="Generate the distribution.">
+        <!-- copy the lib jars into the distribution directory -->
+        <copy todir="${dist}">
+            <fileset dir=".">
+                <include name="lib/**/*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="jar" description="Jar the distribution.">
+        <!-- Create the dist directory -->
+        <mkdir dir="${dist}"/>
+        
+        <!-- Put everything in ${build}/classes into the jar file -->
+        <ivy:info file="ivy.xml"/>
+        <jar destfile="${dist}/${ivy.module}-${ivy.revision}.jar" manifest="${src}/META-INF/MANIFEST.MF">
+            <fileset dir="${build}/classes"/>
+            <fileset dir="${src}/resources"/>
+            <metainf dir="${src}/META-INF"/>
+        </jar>
+    </target>
+
+    <target name="dist" depends="build-deps,dist-nodeps" description="Generate the distribution.">
+        <mkdir dir="${build}/ivy-report"/>
+        <ivy:report todir="${build}/ivy-report"/>
+    </target>
+
+    <path id="proj.testclasspath">
+        <path refid="proj.classpath"/>
+        <pathelement location="${build}/classes"/>
+    </path>
+
+    <path id="proj.runtestclasspath">
+        <path refid="proj.testclasspath"/>
+        <pathelement location="${build}/test"/>
+
+        <!-- puts any test resources on the class path -->
+        <pathelement location="test/java"/>
+    </path>
+
+    <target name="check-tests-exist">
+        <!-- does the test directory exist? if so we should run the test -->
+        <available file="test/java" property="tests.exist"/>
+    </target>
+
+    <target name="compile-and-maybe-test" depends="compile-nodeps,maybe-test" description="test our project"/>
+
+    <target name="maybe-test" depends="check-tests-exist" description="test our project" if="tests.exist">
+
+        <mkdir dir="${build}/test"/>
+        
+        <!-- Compile the java code from ${src}/test into ${build}/classes -->
+        <javac srcdir="test/java" destdir="${build}/test" target="1.5" source="1.5" deprecation="true" classpathref="proj.testclasspath" debug="true">
+            <!--
+            <compilerarg value="-Xlint"/>
+            <compilerarg value="-Xlint:-serial"/>
+            -->
+        </javac>
+
+        <mkdir dir="${build}/junit-report"/>
+        <junit printsummary="yes" fork="no" haltonfailure="yes">
+            <formatter type="xml" usefile="true"/>
+            <!--<formatter type="plain" usefile="false"/>-->
+            <classpath refid="proj.runtestclasspath"/>
+            <batchtest fork="yes" todir="${build}/junit-report">
+                <fileset dir="test/java">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean" depends="clean-nodeps,clean-deps" description="clean the local build and dependent builds"/>
+    
+    <target name="clean-nodeps" description="clean up local build (ignoring dependencies)">
+        <!-- Delete the built directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${doc}"/>
+        <delete dir="${lib}"/>
+        <delete dir="${test.lib}"/>
+        <delete dir="${test.build}"/>
+        <delete dir="${common.build.dir}/ivy-repo/internal"/>
+    </target>
+    
+    <target name="schema-to-java" depends="ivy-retrieve" description="build java files from XML schema">
+        <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+            <classpath>
+                <fileset dir="${lib}" includes="*.jar" />
+            </classpath>
+        </taskdef>
+        
+        <mkdir dir="${build}/java"/>
+        <xjc destdir="${build}/java" binding="${src}/schema/jaxb-bindings.xml">
+            <schema dir="${src}/schema" includes="**/*.xsd"/>
+        </xjc>
+    </target>
+</project>

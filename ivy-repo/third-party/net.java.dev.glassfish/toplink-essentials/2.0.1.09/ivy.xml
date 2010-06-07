@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="net.java.dev.glassfish" module="toplink-essentials" revision="2.0.1.09"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <artifact name="toplink-essentials-agent" type="jar" ext="jar"/>
+        <artifact name="toplink-essentials" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

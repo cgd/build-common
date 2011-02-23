@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="ch.ethz.cisd" module="cisd-jhdf5" revision="10.06.0"/>
+    
+    <configurations>
+    </configurations>
+
+    <publications>
+        <artifact name="cisd-jhdf5-batteries_included_lin_win_mac" type="jar" ext="jar"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

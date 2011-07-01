@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="com.google" module="gwt" revision="2.3.0"/>
+    
+    <configurations>
+        <conf name="client"/>
+        <conf name="server"/>
+    </configurations>
+
+    <publications>
+        <artifact name="gwt-user" type="jar" ext="jar" conf="client"/>
+        <artifact name="gwt-servlet" type="jar" ext="jar" conf="server"/>
+        <artifact name="gwt-dev" type="jar" ext="jar" conf="client"/>
+        <artifact name="validation-api-1.0.0.GA-sources" type="jar" ext="jar" conf="client"/>
+        <artifact name="validation-api-1.0.0.GA" type="jar" ext="jar" conf="client"/>
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

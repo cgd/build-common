@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="solr" revision="3.3.0"/>
+    
+    <configurations>
+        <conf
+            name="compile"
+            description="dependencies needed to compile"/>
+        <conf
+            name="test"
+            extends="compile"
+            description="dependencies needed to test"/>
+    </configurations>
+
+    <publications>
+
+        <!--
+        TODO: the way I created this ivy file is wrong. Solr has so many
+        dependencies that it was easier to expand the war and pack them all into
+        this single ivy file but the right way to do this is of course to break
+        out the dependencies as other ivy packages.
+        -->
+        <artifact name="apache-solr-core" type="jar" ext="jar"/>
+        <artifact name="apache-solr-noggit-r1099557" type="jar" ext="jar"/>
+        <artifact name="apache-solr-solrj" type="jar" ext="jar"/>
+        
+        <artifact name="lucene-analyzers" type="jar" ext="jar"/>
+        <artifact name="lucene-core" type="jar" ext="jar"/>
+        <artifact name="lucene-grouping" type="jar" ext="jar"/>
+        <artifact name="lucene-highlighter" type="jar" ext="jar"/>
+        <artifact name="lucene-memory" type="jar" ext="jar"/>
+        <artifact name="lucene-misc" type="jar" ext="jar"/>
+        <artifact name="lucene-queries" type="jar" ext="jar"/>
+        <artifact name="lucene-spatial" type="jar" ext="jar"/>
+        <artifact name="lucene-spellchecker" type="jar" ext="jar"/>
+
+        <artifact name="commons-beanutils-1.7.0" type="jar" ext="jar"/>
+        <artifact name="commons-codec-1.4" type="jar" ext="jar"/>
+        <artifact name="commons-collections-3.2.1" type="jar" ext="jar"/>
+        <artifact name="commons-csv-1.0-SNAPSHOT-r966014" type="jar" ext="jar"/>
+        <artifact name="commons-fileupload-1.2.1" type="jar" ext="jar"/>
+        <artifact name="commons-httpclient-3.1" type="jar" ext="jar"/>
+        <artifact name="commons-io-1.4" type="jar" ext="jar"/>
+        <artifact name="commons-lang-2.4" type="jar" ext="jar"/>
+
+        <artifact name="geronimo-stax-api_1.0_spec-1.0.1" type="jar" ext="jar"/>
+        <artifact name="guava-r05" type="jar" ext="jar"/>
+        <artifact name="jcl-over-slf4j-1.6.1" type="jar" ext="jar"/>
+        <artifact name="log4j-over-slf4j-1.6.1" type="jar" ext="jar"/>
+        <artifact name="slf4j-api-1.6.1" type="jar" ext="jar"/>
+        <artifact name="slf4j-jdk14-1.6.1" type="jar" ext="jar"/>
+        <artifact name="velocity-1.6.1" type="jar" ext="jar"/>
+        <artifact name="velocity-tools-2.0-beta3" type="jar" ext="jar"/>
+        <artifact name="wstx-asl-3.2.7" type="jar" ext="jar"/>
+
+    </publications>
+    
+    <dependencies>
+    </dependencies>
+    
+</ivy-module>

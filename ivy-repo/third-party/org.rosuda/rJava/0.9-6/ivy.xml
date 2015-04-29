@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <ivy-module version="2.0">
-    <info organisation="org.rosuda" module="rJava" revision="0.9-4"/>
+    <info organisation="org.rosuda" module="rJava" revision="0.9-6"/>
     
     <configurations>
     </configurations>
